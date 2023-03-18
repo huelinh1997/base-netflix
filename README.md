@@ -1,3 +1,22 @@
+## Base Netflix
+
+## Introduce
+
+This project is create a website with basic function like netflix
+
+## Target
+
+Just to practice NextJS when learn on Udemy course
+
+## Technical
+
+- ReactJS
+- NextJS: render by SSG, SSR, ISR
+- SCSS
+- react-hook-form
+
+## Guideline
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
