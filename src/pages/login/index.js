@@ -42,10 +42,24 @@ const Login = (props) => {
         email: data.email,
       });
       if (didToken) {
-        router.push("/");
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${didToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const loggedInResponse = await response.json();
+        if (loggedInResponse.done) {
+          router.push("/");
+          return;
+        }
+        console.log("Something went wrong logging");
       }
     } catch (err) {
       console.log("Something went wrong:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 

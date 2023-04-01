@@ -1,4 +1,5 @@
 //import videoData from "@/data/videos.json";
+import { getWatchedAgain, getMyListVideo } from "@/lib/db/hasura";
 
 export const getCommonVideos = async (url) => {
   const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
@@ -17,7 +18,7 @@ export const getCommonVideos = async (url) => {
       const snippet = item?.snippet;
       return {
         title: snippet?.title,
-        imgUrl: snippet?.thumbnails?.high?.url,
+        imgUrl: `https://i.ytimg.com/vi/${item?.id?.videoId}/maxresdefault.jpg`,
         id: item?.id?.videoId || item?.id,
         description: snippet?.description,
         publishTime: snippet?.publishedAt,
@@ -43,4 +44,20 @@ export const getPopularVideos = async () => {
 export const getVideoById = async (videoId) => {
   const URL = `videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}`;
   return getCommonVideos(URL);
+};
+
+export const getWatchedAgainVideo = async (userId, token) => {
+  const res = await getWatchedAgain(userId, token);
+  return res.map((video) => ({
+    id: video.videoId,
+    imgUrl: `https://i.ytimg.com/vi/${video.videoId}/maxresdefault.jpg`,
+  }));
+};
+
+export const getMyList = async (userId, token) => {
+  const res = await getMyListVideo(userId, token);
+  return res.map((video) => ({
+    id: video.videoId,
+    imgUrl: `https://i.ytimg.com/vi/${video.videoId}/maxresdefault.jpg`,
+  }));
 };

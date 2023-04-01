@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import styles from "./navbar.module.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,16 +9,24 @@ import { useRouter } from "next/router";
 const Navbar = ({ isLogged = true }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [userInfo, setUserInfo] = useState(false);
+  const [didToken, setDidToken] = useState("");
   const router = useRouter();
 
   const handleShowDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleSignOut = async () => {
+  const handleSignOut = async (e) => {
+    e.preventDefault();
     try {
-      await magic.user.logout();
-      router.push("/login");
+      const response = await fetch("/api/logout/", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${didToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      await response.json();
     } catch (err) {
       console.log("Something err when logout:", err);
       router.push("/login");
@@ -29,9 +36,10 @@ const Navbar = ({ isLogged = true }) => {
   useEffect(() => {
     const getInfoUser = async () => {
       try {
-        const { email } = await magic.user.getMetadata();
-        if (email) {
-          setUserInfo(email);
+        const didToken = await magic.user.getIdToken();
+        const userInfo = await magic.user.getMetadata();
+        if (userInfo?.email) {
+          setUserInfo(userInfo?.email);
         }
       } catch (err) {
         console.log("something err get info:", err);
@@ -58,7 +66,9 @@ const Navbar = ({ isLogged = true }) => {
           <>
             <ul className={styles.navItems}>
               <li className={styles.navItem}>Home</li>
-              <li className={styles.navItem}>My list</li>
+              <li className={styles.navItem}>
+                <Link href="/my-list">My list</Link>
+              </li>
             </ul>
             <nav className={styles.navContainer}>
               {userInfo && (

@@ -5,7 +5,11 @@ import styles from "./card.module.scss";
 import { motion } from "framer-motion";
 import cls from "classnames";
 
-const Card = ({ imgSrc = "/static/default.jpg", size = "medium" }) => {
+const Card = ({
+  imgSrc = "/static/default.jpg",
+  size = "medium",
+  shouldScale = true,
+}) => {
   const [srcImg, setSrcImg] = useState(imgSrc);
   const classMap = {
     large: styles.lgItem,
@@ -17,13 +21,17 @@ const Card = ({ imgSrc = "/static/default.jpg", size = "medium" }) => {
     setSrcImg("/static/default.jpg");
   };
 
+  const shouldScaleHover = shouldScale && {
+    whileHover: {
+      scale: 1.1,
+    },
+  };
+
   return (
     <div className={styles.container}>
       <motion.div
         className={cls(classMap[size], styles.imgMotionWrapper)}
-        whileHover={{
-          scale: 1.1,
-        }}
+        {...shouldScaleHover}
       >
         <Image
           src={srcImg}

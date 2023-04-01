@@ -3,15 +3,37 @@ import styles from "@/styles/Home.module.css";
 import Banner from "@/components/Banner";
 import Navbar from "@/components/Navbar";
 import SectionCards from "@/components/SectionCards";
-import { getVideos, getPopularVideos } from "@/lib/videos";
+import {
+  getVideos,
+  getPopularVideos,
+  getWatchedAgainVideo,
+} from "@/lib/videos";
+import { getUserIdFromToken } from "@/lib/util";
 import HeadPage from "@/components/Head";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const token = context?.req ? context.req?.cookies?.token : null;
+  const userId = await getUserIdFromToken(token);
+  // const userId = "did:ethr:0x0268fDdb587c489CBa20aBe07F3273bf311e71dF";
+  if (!userId) {
+    return {
+      props: {},
+    };
+    // return {
+    //   props: {},
+    //   redirect: {
+    //     destination: "/login",
+    //     permanent: true,
+    //   },
+    // };
+  }
   const favoriteVideo = await getVideos("disney trailer");
   const travelVideo = await getVideos("travel");
   const productivityVideo = await getVideos("productivity");
   const popularVideo = await getPopularVideos();
   const technologyVideo = await getVideos("information technology");
+  const watchedAgainVideo = await getWatchedAgainVideo(userId, token);
+
   return {
     props: {
       favoriteVideo,
@@ -19,6 +41,7 @@ export async function getServerSideProps() {
       productivityVideo,
       popularVideo,
       technologyVideo,
+      watchedAgainVideo,
     },
   };
 }
@@ -29,6 +52,7 @@ export default function Home({
   productivityVideo,
   popularVideo,
   technologyVideo,
+  watchedAgainVideo,
 }) {
   return (
     <>
@@ -52,6 +76,11 @@ export default function Home({
             title="Productivity"
             listMovie={productivityVideo}
             size="medium"
+          />
+          <SectionCards
+            title="Watch again"
+            listMovie={watchedAgainVideo}
+            size="small"
           />
           <SectionCards title="Popular" listMovie={popularVideo} size="small" />
           <SectionCards

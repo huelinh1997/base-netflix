@@ -7,7 +7,6 @@ import Loading from "@/components/Loading";
 
 const roboto = Roboto_Slab({
   weight: ["400", "700"],
-  // style: ["normal", "italic"],
   subsets: ["latin"],
 });
 
@@ -16,20 +15,22 @@ const roboto = Roboto_Slab({
 // const myFont = localFont({src: './my-font.woff2'})
 
 export default function App({ Component, pageProps }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      const isLoggedIn = await magic.user.isLoggedIn();
 
-  // useEffect(() => {
-  //   const checkLoggedIn = async () => {
-  //     setIsLoading(true);
-  //     const isLoggedIn = await magic.user.isLoggedIn();
-  //     if (isLoggedIn) {
-  //       return router.push("/");
-  //     }
-  //     router.push("/login");
-  //   };
-  //   checkLoggedIn();
-  // }, []);
+      if (router?.asPath === "/login" && isLoggedIn) {
+        return router.push("/");
+      }
+      if (!isLoggedIn) {
+        return router.push("/login");
+      }
+      setIsLoading(false);
+    };
+    checkLoggedIn();
+  }, []);
 
   useEffect(() => {
     const handleComplete = () => {

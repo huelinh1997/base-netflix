@@ -1,4 +1,5 @@
 const { Magic } = require("magic-sdk");
+import { WebAuthnExtension } from "@magic-ext/webauthn";
 
 const createMagic = () => {
   if (typeof window === "undefined") return null;
@@ -9,3 +10,5 @@ const createMagic = () => {
   );
 };
 export const magic = createMagic();
+
+// doc: https://magic.link/docs/auth/login-methods/email/integration/web
