@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import { Roboto_Slab } from "next/font/google";
-import { magic } from "@/lib/magic-link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
@@ -15,22 +14,8 @@ const roboto = Roboto_Slab({
 // const myFont = localFont({src: './my-font.woff2'})
 
 export default function App({ Component, pageProps }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  useEffect(() => {
-    const checkLoggedIn = async () => {
-      const isLoggedIn = await magic.user.isLoggedIn();
-
-      if (router?.asPath === "/login" && isLoggedIn) {
-        return router.push("/");
-      }
-      if (!isLoggedIn) {
-        return router.push("/login");
-      }
-      setIsLoading(false);
-    };
-    checkLoggedIn();
-  }, []);
 
   useEffect(() => {
     const handleComplete = () => {

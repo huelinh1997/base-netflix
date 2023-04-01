@@ -10,18 +10,6 @@ import PropTypes from "prop-types";
 export async function getServerSideProps(context) {
   const token = context?.req ? context.req?.cookies?.token : null;
   const userId = await getUserIdFromToken(token);
-  if (!userId) {
-    return {
-      props: {},
-    };
-    // return {
-    //   props: {},
-    //   redirect: {
-    //     destination: "/login",
-    //     permanent: false,
-    //   },
-    // };
-  }
   const myList = await getMyList(userId, token);
 
   return {

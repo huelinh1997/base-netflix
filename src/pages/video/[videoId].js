@@ -35,7 +35,6 @@ Modal.setAppElement("#__next");
 const VideoSpecific = ({ video }) => {
   const router = useRouter();
   const videoId = router?.query?.videoId;
-  const [isOpenModal, setIsOpenModal] = useState(true);
   const [toggleLike, setToggleLike] = useState(false);
   const [toggleDisLike, setToggleDisLike] = useState(false);
   const updateUserHistory = async (favourited = null) => {

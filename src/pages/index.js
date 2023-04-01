@@ -14,19 +14,7 @@ import HeadPage from "@/components/Head";
 export async function getServerSideProps(context) {
   const token = context?.req ? context.req?.cookies?.token : null;
   const userId = await getUserIdFromToken(token);
-  // const userId = "did:ethr:0x0268fDdb587c489CBa20aBe07F3273bf311e71dF";
-  if (!userId) {
-    return {
-      props: {},
-    };
-    // return {
-    //   props: {},
-    //   redirect: {
-    //     destination: "/login",
-    //     permanent: true,
-    //   },
-    // };
-  }
+
   const favoriteVideo = await getVideos("disney trailer");
   const travelVideo = await getVideos("travel");
   const productivityVideo = await getVideos("productivity");
