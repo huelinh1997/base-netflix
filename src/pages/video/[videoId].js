@@ -54,7 +54,6 @@ const VideoSpecific = ({ video }) => {
       method: "GET",
     });
     const videoInfo = await response?.json();
-
     if (videoInfo.length > 0) {
       videoInfo[0]?.favourited === 1 && setToggleLike(true);
       videoInfo[0]?.favourited === 0 && setToggleDisLike(true);
@@ -88,41 +87,45 @@ const VideoSpecific = ({ video }) => {
     <div className={styles.container}>
       <HeadPage />
       <Navbar />
-      <iframe
-        id="player"
-        type="text/html"
-        width="100%"
-        height="390"
-        src={`http://www.youtube.com/embed/${router?.query?.videoId}?&autoplay=1&enablejsapi=1&origin=http://example.com&controls=0&rel=0`}
-        frameborder="0"
-        className={styles.videoPlayer}
-      ></iframe>
-      <div className={styles.likeDislikeBtnWrapper}>
-        <div className={styles.likeBtnWrapper}>
-          <button className={styles.btnWrapper} onClick={handleToggleLike}>
-            <Like selected={toggleLike} />
-          </button>
-        </div>
-        <button className={styles.btnWrapper} onClick={handleToggleDisLike}>
-          <DisLike selected={toggleDisLike} />
-        </button>
-      </div>
-      <div className={styles.modalBody}>
-        <div className={styles.modalBodyContent}>
-          <div className={styles.col1}>
-            <p className={styles.publishTime}>{publishTime}</p>
-            <p className={styles.title}>{title}</p>
-            <p className={styles.description}>{description}</p>
+      <div className={styles.videoWrapper}>
+        <div className={styles.video}>
+          <iframe
+            id="player"
+            type="text/html"
+            width="100%"
+            height="390"
+            src={`https://www.youtube.com/embed/${router?.query?.videoId}?&autoplay=1&enablejsapi=1&origin=http://example.com&controls=0&rel=0`}
+            frameborder="0"
+            className={styles.videoPlayer}
+          ></iframe>
+          <div className={styles.likeDislikeBtnWrapper}>
+            <div className={styles.likeBtnWrapper}>
+              <button className={styles.btnWrapper} onClick={handleToggleLike}>
+                <Like selected={toggleLike} />
+              </button>
+            </div>
+            <button className={styles.btnWrapper} onClick={handleToggleDisLike}>
+              <DisLike selected={toggleDisLike} />
+            </button>
           </div>
-          <div className={styles.col2}>
-            <p className={clsx(styles.subText, styles.subTextWrapper)}>
-              <span className={styles.textColor}>Cast: </span>
-              <span className={styles.channelTitle}>{channelTitle}</span>
-            </p>
-            <p className={clsx(styles.subText, styles.subTextWrapper)}>
-              <span className={styles.textColor}>View Count: </span>
-              <span className={styles.channelTitle}>{viewCount}</span>
-            </p>
+          <div className={styles.modalBody}>
+            <div className={styles.modalBodyContent}>
+              <div className={styles.col1}>
+                <p className={styles.publishTime}>{publishTime}</p>
+                <p className={styles.title}>{title}</p>
+                <p className={styles.description}>{description}</p>
+              </div>
+              <div className={styles.col2}>
+                <p className={clsx(styles.subText, styles.subTextWrapper)}>
+                  <span className={styles.textColor}>Cast: </span>
+                  <span className={styles.channelTitle}>{channelTitle}</span>
+                </p>
+                <p className={clsx(styles.subText, styles.subTextWrapper)}>
+                  <span className={styles.textColor}>View Count: </span>
+                  <span className={styles.channelTitle}>{viewCount}</span>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

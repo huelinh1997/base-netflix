@@ -1,5 +1,9 @@
-.container {
-  margin: 7rem 12rem;
+.videoWrapper {
+  margin: 7rem auto;
+  max-width: 900px;
+  .video {
+    margin: 0 30px;
+  }
 }
 .modal {
   position: absolute;

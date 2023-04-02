@@ -65,7 +65,9 @@ const Navbar = ({ isLogged = true }) => {
         {isLogged && (
           <>
             <ul className={styles.navItems}>
-              <li className={styles.navItem}>Home</li>
+              <li className={styles.navItem}>
+                <Link href="/">Home</Link>
+              </li>
               <li className={styles.navItem}>
                 <Link href="/my-list">My list</Link>
               </li>
