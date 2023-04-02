@@ -51,6 +51,7 @@ const Login = (props) => {
         });
         const loggedInResponse = await response.json();
         if (loggedInResponse.done) {
+          console.log("router push home...");
           router.push("/");
           return;
         }
